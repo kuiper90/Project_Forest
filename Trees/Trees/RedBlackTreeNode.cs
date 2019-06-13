@@ -28,5 +28,12 @@ namespace Trees
             Key = key;
             Color = color;
         }
+
+        public static bool IsRed(RedBlackTreeNode<TKey> node)
+        {
+            if (node == null)
+                return false;
+            return node.Color == Red;
+        }
     }
 }

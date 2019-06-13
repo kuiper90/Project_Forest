@@ -73,7 +73,7 @@ namespace UnitTest_Trees
         }
 
         [Fact]
-        public void Delete_BlackNode_With_NoChildren_Should_TriggerRotations_AndRecoloring()
+        public void Delete_Root_Should_TriggerRotations_AndRecoloring()
         {
             RedBlackTree<int> tree = new RedBlackTree<int>();
             for (int i = 0; i < 10; i++)
@@ -84,7 +84,18 @@ namespace UnitTest_Trees
         }
 
         [Fact]
-        public void Delete_RedNode_With_NoChildren_Should_TriggerRotations_AndRecoloring()
+        public void Delete_RightRight_BlackNode_With_NoChildren_Should_TriggerRotations_AndRecoloring()
+        {
+            RedBlackTree<int> tree = new RedBlackTree<int>();
+            for (int i = 0; i < 10; i++)
+                tree.Insert(i);
+            tree.Delete(tree.GetNode(6).Key);
+            var exception = Assert.Throws<KeyNotFoundException>(() => tree.GetNode(6));
+            Assert.True(exception.Message == "Key not found.");
+        }
+
+        [Fact]
+        public void Delete_BlackNode_With_Children_Should_TriggerRotations_AndRecoloring()
         {
             RedBlackTree<int> tree = new RedBlackTree<int>();
             for (int i = 0; i < 10; i++)
@@ -95,7 +106,7 @@ namespace UnitTest_Trees
         }
 
         [Fact]
-        public void Delete_BlackNode_With_Children_Should_TriggerRotations_AndRecoloring()
+        public void Delete_RightLeft_BlackNode_With_NoChildren_Should_TriggerRotations_AndRecoloring()
         {
             RedBlackTree<int> tree = new RedBlackTree<int>();
             for (int i = 0; i < 10; i++)
@@ -108,7 +119,7 @@ namespace UnitTest_Trees
         }
 
         [Fact]
-        public void Delete_RedNode_With_Children_Should_TriggerRotations_AndRecoloring()
+        public void Delete_LeftRight_BlackNode_With_NoChildren_Should_TriggerRotations_AndRecoloring()
         {
             RedBlackTree<int> tree = new RedBlackTree<int>();
             for (int i = 0; i < 10; i++)

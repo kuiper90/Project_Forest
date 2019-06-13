@@ -9,18 +9,16 @@ namespace Trees
         public RedBlackTreeNode<TKey> Root { get; private set; }
 
         public bool IsEmpty()
-        {
-            return Root == null;
-        }
+            => Root == null;
 
-        public void FlipColors(RedBlackTreeNode<TKey> node)
+        public void SwitchColors(RedBlackTreeNode<TKey> node)
         {
             node.Color = Red;
             node.Left.Color = Black;
             node.Right.Color = Black;
         }
 
-        private bool IsRed(RedBlackTreeNode<TKey> node)
+        public bool IsRed(RedBlackTreeNode<TKey> node)
         {
             if (node == null)
                 return false;
@@ -48,7 +46,7 @@ namespace Trees
             if (IsRed(node.Left) && IsRed(node.Left.Left))
                 node = RotateRight(node);
             if (IsRed(node.Left) && IsRed(node.Right))
-                FlipColors(node);
+                SwitchColors(node);
             return node;
         }
 
@@ -100,17 +98,15 @@ namespace Trees
 
         private RedBlackTreeNode<TKey> MoveRedRight(RedBlackTreeNode<TKey> node)
         {
-            node.Color = Red;
-            node.Left.Color = Black;
-            node.Right.Color = Black;
-            if (!IsRed(node.Left.Left))
+            SwitchColors(node);
+            if (IsRed(node.Left.Left))
                 node = RotateRight(node);
             return node;
         }
 
         private RedBlackTreeNode<TKey> MoveRedLeft(RedBlackTreeNode<TKey> node)
         {
-            FlipColors(node);
+            SwitchColors(node);
             if (IsRed(node.Right.Left))
             {
                 node.Right = RotateRight(node.Right);
@@ -128,16 +124,16 @@ namespace Trees
             if (IsRed(node.Left) && IsRed(node.Left.Left))
                 node = RotateRight(node);
             if (IsRed(node.Left) && IsRed(node.Right))
-                FlipColors(node);
+                SwitchColors(node);
             return node;
-        } 
+        }
 
-        private void DeleteMin()
+        public void DeleteMin()
         {
             if (!IsRed(Root.Left) && !IsRed(Root.Right))
                 Root.Color = Red;
             Root = DeleteMin(Root);
-            if (IsEmpty())
+            if (!IsEmpty())
                 Root.Color = Black;
         }
 
@@ -151,12 +147,12 @@ namespace Trees
             return Balance(node);
         }
 
-        private void DeleteMax()
+        public void DeleteMax()
         {
             if (!IsRed(Root.Left) && !IsRed(Root.Right))
                 Root.Color = Red;
             Root = DeleteMax(Root);
-            if (IsEmpty())
+            if (!IsEmpty())
                 Root.Color = Black;
         }
 
@@ -170,31 +166,6 @@ namespace Trees
                 node = MoveRedRight(node);
             node.Right = DeleteMax(node.Right);
             return Balance(node);
-        }
-
-        private RedBlackTreeNode<TKey> Delete(RedBlackTreeNode<TKey> node, TKey key)
-        {
-            if (node == null)
-                return null;
-            int cmp = key.CompareTo(node.Key);
-
-            if (cmp < 0)
-                node.Left = Delete(node.Left, key);
-            else if (cmp > 0)
-                node.Right = Delete(node.Right, key);
-            else
-            {
-                if (node.Right == null)
-                    return node.Left;
-                if (node.Left == null)
-                    return node.Right;
-
-                RedBlackTreeNode<TKey> t = node;
-                node = Minimum(t.Right);
-                node.Right = DeleteMin(t.Right);
-                node.Left = t.Left;
-            }
-            return node;
         }
 
         public void Delete(TKey key)
@@ -212,7 +183,7 @@ namespace Trees
             {
                 if (!IsRed(node.Left) && !IsRed(node.Left.Left))
                     node = MoveRedLeft(node);
-                node.Left = Delete(node.Left, key);
+                node.Left = DeleteNode(node.Left, key);
             }
             else
             {
@@ -227,7 +198,7 @@ namespace Trees
                     node.Key = Minimum(node.Right).Key;
                     node.Right = DeleteMin(node.Right);
                 }
-                else node.Right = Delete(node.Right, key);
+                else node.Right = DeleteNode(node.Right, key);
             }
             return Balance(node);
         }
@@ -249,6 +220,31 @@ namespace Trees
             {
                 throw new KeyNotFoundException("Key not found.");
             }
+        }
+
+        public List<TKey> WalkInOrder()
+            => WalkInOrder(Minimum(), Maximum());
+
+        public List<TKey> WalkInOrder(TKey low, TKey high)
+        {
+            List<TKey> nodesList = new List<TKey>();
+            WalkInOrder(Root, nodesList, low, high);
+            return nodesList;
+        }
+
+        private void WalkInOrder(RedBlackTreeNode<TKey> nodes, List<TKey> nodesList, TKey low, TKey high)
+        {
+            if (nodes == null)
+                return;
+            int cmpLow = low.CompareTo(nodes.Key);
+            int cmpHigh = high.CompareTo(nodes.Key);
+
+            if (cmpLow < 0)
+                WalkInOrder(nodes.Left, nodesList, low, high);
+            if (cmpLow <= 0 && cmpHigh >= 0)
+                nodesList.Add(nodes.Key);
+            if (cmpHigh > 0)
+                WalkInOrder(nodes.Right, nodesList, low, high);
         }
     }
 }

@@ -14,3 +14,4 @@ D:\Git\Project_Forest\Trees\Trees\obj\Debug\Trees.csproj.CoreCompileInputs.cache
 D:\Git\Project_Forest\Trees\Trees\obj\Debug\Trees.csproj.CopyComplete
 D:\Git\Project_Forest\Trees\Trees\obj\Debug\Trees.dll
 D:\Git\Project_Forest\Trees\Trees\obj\Debug\Trees.pdb
+D:\Git\Project_Forest\Trees\Trees\obj\Debug\Trees.csprojAssemblyReference.cache
