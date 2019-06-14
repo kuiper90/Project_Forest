@@ -21,8 +21,13 @@ namespace UnitTest_Trees
             RedBlackTree<int> tree = new RedBlackTree<int>();
             tree.Insert(10);
             tree.Insert(9);
-            Assert.True(tree.Root.Key == 10);
-            Assert.True(tree.Root.Left.Key == 9);
+            List<RedBlackTreeNode<int>> nodeList = tree.WalkInOrder();
+
+            Assert.True(nodeList[0].Key == 9 && nodeList[0].Color == Red);
+            Assert.True(nodeList[1].Key == 10 && nodeList[1].Color == Black);
+
+            //Assert.True(tree.Root.Key == 10);
+            //Assert.True(tree.Root.Left.Key == 9);
         }
 
         [Fact]
@@ -31,10 +36,15 @@ namespace UnitTest_Trees
             RedBlackTree<int> tree = new RedBlackTree<int>();
             tree.Insert(10);
             tree.Insert(10);
-            Assert.True(tree.Root.Key == 10);
-            Assert.True(tree.Root.Color == Black);
-            Assert.True(tree.Root.Left.Key == 10);
-            Assert.True(tree.Root.Left.Color == Red);
+            List<RedBlackTreeNode<int>> nodeList = tree.WalkInOrder();
+
+            Assert.True(nodeList[0].Key == 10 && nodeList[0].Color == Red);
+            Assert.True(nodeList[1].Key == 10 && nodeList[1].Color == Black);
+
+            //Assert.True(tree.Root.Key == 10);
+            //Assert.True(tree.Root.Color == Black);
+            //Assert.True(tree.Root.Left.Key == 10);
+            //Assert.True(tree.Root.Left.Color == Red);
         }
 
         [Fact]
@@ -43,10 +53,15 @@ namespace UnitTest_Trees
             RedBlackTree<int> tree = new RedBlackTree<int>();
             tree.Insert(10);
             tree.Insert(100);
-            Assert.True(tree.Root.Key == 100);
-            Assert.True(tree.Root.Color == Black);
-            Assert.True(tree.Root.Left.Key == 10);
-            Assert.True(tree.Root.Left.Color == Red);
+            List<RedBlackTreeNode<int>> nodeList = tree.WalkInOrder();
+
+            Assert.True(nodeList[0].Key == 10 && nodeList[0].Color == Red);
+            Assert.True(nodeList[1].Key == 100 && nodeList[1].Color == Black);
+
+            //Assert.True(tree.Root.Key == 100);
+            //Assert.True(tree.Root.Color == Black);
+            //Assert.True(tree.Root.Left.Key == 10);
+            //Assert.True(tree.Root.Left.Color == Red);
         }
 
         [Fact]
@@ -56,20 +71,34 @@ namespace UnitTest_Trees
             for (int i = 0; i < 10; i++)
                 tree.Insert(i);
             tree.Insert(10);
-            Assert.True(tree.Root.Right.Right.Key == 10);
-            Assert.True(tree.Root.Right.Right.Color == Black);
-            Assert.True(tree.Root.Right.Key == 9);
-            Assert.True(tree.Root.Right.Color == Black);
-            Assert.True(tree.Root.Right.Left.Key == 8);
-            Assert.True(tree.Root.Right.Left.Color == Black);
-            Assert.True(tree.Root.Left.Right.Right.Key == 6);
-            Assert.True(tree.Root.Left.Right.Right.Color == Black);
-            Assert.True(tree.Root.Left.Right.Key == 5);
-            Assert.True(tree.Root.Left.Right.Color == Black);
-            Assert.True(tree.Root.Left.Left.Key == 1);
-            Assert.True(tree.Root.Left.Left.Color == Black);
-            Assert.True(tree.Root.Left.Key == 3);
-            Assert.True(tree.Root.Left.Color == Red);
+            List<RedBlackTreeNode<int>> nodeList = tree.WalkInOrder();
+
+            Assert.True(nodeList[0].Key == 0 && nodeList[0].Color == Black);
+            Assert.True(nodeList[1].Key == 1 && nodeList[1].Color == Black);
+            Assert.True(nodeList[2].Key == 2 && nodeList[2].Color == Black);
+            Assert.True(nodeList[3].Key == 3 && nodeList[3].Color == Red);
+            Assert.True(nodeList[4].Key == 4 && nodeList[4].Color == Black);
+            Assert.True(nodeList[5].Key == 5 && nodeList[5].Color == Black);
+            Assert.True(nodeList[6].Key == 6 && nodeList[6].Color == Black);
+            Assert.True(nodeList[7].Key == 7 && nodeList[7].Color == Black);
+            Assert.True(nodeList[8].Key == 8 && nodeList[8].Color == Black);
+            Assert.True(nodeList[9].Key == 9 && nodeList[9].Color == Black);
+            Assert.True(nodeList[10].Key == 10 && nodeList[10].Color == Black);
+
+            //Assert.True(tree.Root.Right.Right.Key == 10);
+            //Assert.True(tree.Root.Right.Right.Color == Black);
+            //Assert.True(tree.Root.Right.Key == 9);
+            //Assert.True(tree.Root.Right.Color == Black);
+            //Assert.True(tree.Root.Right.Left.Key == 8);
+            //Assert.True(tree.Root.Right.Left.Color == Black);
+            //Assert.True(tree.Root.Left.Right.Right.Key == 6);
+            //Assert.True(tree.Root.Left.Right.Right.Color == Black);
+            //Assert.True(tree.Root.Left.Right.Key == 5);
+            //Assert.True(tree.Root.Left.Right.Color == Black);
+            //Assert.True(tree.Root.Left.Left.Key == 1);
+            //Assert.True(tree.Root.Left.Left.Color == Black);
+            //Assert.True(tree.Root.Left.Key == 3);
+            //Assert.True(tree.Root.Left.Color == Red);
         }
 
         [Fact]
@@ -112,8 +141,14 @@ namespace UnitTest_Trees
             for (int i = 0; i < 10; i++)
                 tree.Insert(i);
             tree.Delete(tree.GetNode(8).Key);
-            Assert.True(tree.Root.Right.Right.Key == 9);
-            Assert.True(tree.Root.Right.Right.Color == Black);
+            List<RedBlackTreeNode<int>> nodeList = tree.WalkInOrder();
+
+            Assert.True(nodeList[5].Key == 5 && nodeList[5].Color == Red);
+            Assert.True(nodeList[7].Key == 7 && nodeList[7].Color == Black);
+            Assert.True(nodeList[8].Key == 9 && nodeList[8].Color == Black);
+
+            //Assert.True(tree.Root.Right.Right.Key == 9);
+            //Assert.True(tree.Root.Right.Right.Color == Black);
             var exception = Assert.Throws<KeyNotFoundException>(() => tree.GetNode(8));
             Assert.True(exception.Message == "Key not found.");
         }
