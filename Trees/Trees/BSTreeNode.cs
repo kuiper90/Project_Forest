@@ -18,6 +18,7 @@ namespace Trees
         internal BSTreeNode()
         {
             Left = Right = null;
+            Key = default(TKey);
         }
 
         public BSTreeNode(TKey key) : this()

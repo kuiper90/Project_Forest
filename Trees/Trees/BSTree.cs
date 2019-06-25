@@ -9,7 +9,7 @@ namespace Trees
 
         public static BSTreeNode<TKey> Leaf;
 
-        private IComparer<TKey> comparer;
+        private IComparer<TKey> comp;
 
         public BSTree()
         {
@@ -19,10 +19,10 @@ namespace Trees
 
         public int Compare(TKey firstKey, TKey secondKey)
         {
-            if (comparer == null)
+            if (comp == null)
                 return ((IComparable<TKey>)firstKey).CompareTo(secondKey);
             else
-                return comparer.Compare(firstKey, secondKey);
+                return comp.Compare(firstKey, secondKey);
         }
 
         public BSTreeNode<TKey> GetNode(TKey inputKey)

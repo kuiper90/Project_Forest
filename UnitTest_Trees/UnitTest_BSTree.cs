@@ -59,8 +59,31 @@ namespace UnitTest_Trees
             tree.Add(13);
             tree.Add(53);
             tree.Add(100);
-            Assert.True(tree.Root.Key == 10);
-            Assert.True(tree.Root.Right.Right.Right.Key == 100);
+            List<BSTreeNode<int>> nodeList = tree.CopyToList(tree);
+            
+            Assert.True(nodeList[5].Key == 10);
+            Assert.True(nodeList[9].Key == 100);
+        }
+
+        [Fact]
+        public void AddOneNode_WithDefaultValue_Tree_ShouldBe_Sorted()
+        {
+            BSTree<int> tree = new BSTree<int>();
+            tree.Add(10);
+            tree.Add(5);
+            tree.Add(7);
+            tree.Add(9);
+            tree.Add(20);
+            tree.Add(6);
+            tree.Add(1);
+            tree.Add(13);
+            tree.Add(53);
+            tree.Add(100);
+            tree.Add(0);
+            List<BSTreeNode<int>> nodeList = tree.CopyToList(tree);
+
+            Assert.True(nodeList[5].Key == 9);
+            Assert.True(nodeList[9].Key == 53);
         }
 
         [Fact]
